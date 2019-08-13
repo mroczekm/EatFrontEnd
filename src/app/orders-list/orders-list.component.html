@@ -1,0 +1,22 @@
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Date</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Status</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders">
+    <th scope="row">{{order.id}}</th>
+    <td>{{order.date | date: 'MMM d, y, hh:mm:ss'}}</td>
+    <td>{{order.name}}</td>
+    <td>{{order.description}}</td>
+    <td>{{order.status}}</td>
+    <td>X</td>
+  </tr>
+  </tbody>
+</table>
