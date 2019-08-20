@@ -12,23 +12,39 @@ import { NewOrderComponent } from './orders-list/new-order/new-order.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { NewOrderDetailsComponent } from './order-details/new-order-details/new-order-details.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import {AuthGaurdService} from "./service/auth-gaurd.service";
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: OrdersListComponent
+    component: OrdersListComponent,
+    canActivate:[AuthGaurdService]
   },
   {
     path: 'orders',
-    component: OrdersListComponent
+    component: OrdersListComponent,
+    canActivate:[AuthGaurdService]
   },
   {
     path: 'orderDeatails/:id',
-    component: OrderDetailsComponent
+    component: OrderDetailsComponent,
+    canActivate:[AuthGaurdService]
   },
   {
     path: 'myOrders',
-    component: MyOrdersComponent
+    component: MyOrdersComponent,
+    canActivate:[AuthGaurdService]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent,
+    canActivate:[AuthGaurdService]
   }
 ];
 
@@ -40,7 +56,9 @@ const appRoutes: Routes = [
     NewOrderComponent,
     OrderDetailsComponent,
     NewOrderDetailsComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
