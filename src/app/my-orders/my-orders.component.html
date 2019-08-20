@@ -1,0 +1,30 @@
+<h2>Moje zamówienia</h2>
+<div class="pull-right mb-3">
+  <span>Kwota do uregulowania: </span><span class="ri font-weight-bold">{{toPay | number: '.2-2'}}</span><span> zł</span>
+</div>
+<table class="table" style="margin-top: 30px">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">ID zamówienia</th>
+    <th scope="col">Potrawa</th>
+    <th scope="col">Cena</th>
+    <th scope="col">Uwagi</th>
+    <th scope="col">Dodatkowo do zapłaty</th>
+    <th scope="col">Zapłacono</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let orderDetails of orderDetails;">
+    <th scope="row">{{orderDetails.orderId}}</th>
+    <td>{{orderDetails.dish}}</td>
+    <td>{{orderDetails.price | number: '.2-2'}} zł</td>
+    <td>{{orderDetails.description}}</td>
+    <td>{{orderDetails.extra | number: '.2-2'}} zł</td>
+    <td>
+      <i *ngIf="orderDetails.status==='NOT_PAID'" class="fa fa-square-o"></i>
+      <i *ngIf="orderDetails.status==='PAID'" class="fa fa-check-square-o"></i>
+    </td>
+
+  </tr>
+  </tbody>
+</table>

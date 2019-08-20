@@ -1,0 +1,88 @@
+<h2>Opis</h2>
+<div class="container">
+  <form name="form" #f="ngForm" novalidate class="input-form">
+    <div class="form-group w-100">
+      <label>Nazwa</label>
+      <input type="text"
+             id="name"
+             class="form-control "
+             name="name"
+             [value]="order.name"
+             disabled/>
+    </div>
+  </form>
+  <form name="form" #f="ngForm" novalidate class="input-form">
+    <div class="form-group">
+      <label>Opis</label>
+      <textarea type="text"
+                id="description"
+                class="form-control"
+                name="description"
+                [value]="order.description"
+                disabled
+      ></textarea>
+    </div>
+  </form>
+</div>
+<app-new-order-details *ngIf="order.status=='OPEN'" [id]="id"></app-new-order-details>
+<h2>Zamówienia</h2>
+<table class="table" style="margin-top: 30px">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Imie i Nazwisko</th>
+    <th scope="col">Potrawa</th>
+    <th scope="col">Cena</th>
+    <th scope="col">Uwagi</th>
+    <th scope="col">Dodatkowo do zapłaty</th>
+    <th scope="col">Zapłacono</th>
+    <th scope="col">Akcja</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let orderDetails of orderDetails; let i = index">
+    <th scope="row">{{i + 1}}</th>
+    <td>{{orderDetails.user.firstName}} {{orderDetails.user.lastName}}</td>
+    <td>{{orderDetails.dish}}</td>
+    <td>{{orderDetails.price | number: '.2-2'}} zł</td>
+    <td>{{orderDetails.description}}</td>
+    <td>{{orderDetails.extra | number: '.2-2'}} zł</td>
+    <td *ngIf="order.status!='CLOSE'">
+      <i *ngIf="orderDetails.status==='NOT_PAID'" class="fa fa-square-o"
+         (click)="changePaidStatus(this.orderDetails)"></i>
+      <i *ngIf="orderDetails.status==='PAID'" class="fa fa-check-square-o"
+         (click)="changePaidStatus(this.orderDetails)"></i>
+    </td>
+    <td *ngIf="order.status=='CLOSE'">
+      <i *ngIf="orderDetails.status==='NOT_PAID'" class="fa fa-square-o"></i>
+      <i *ngIf="orderDetails.status==='PAID'" class="fa fa-check-square-o"></i>
+    </td>
+    <td>
+      <i *ngIf="order.status!='CLOSE'" class="fa  fa-trash-o" (click)="deleteOrderDetails(this.orderDetails.id)"></i>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="row pull-right" *ngIf="order.status!='CLOSE'">
+  <form name="form" #f="ngForm" novalidate class="input-form ">
+    <label>Dodatkowe koszta:</label>
+    <input type="text"
+           id="extra"
+           class="form-control "
+           name="extra"
+           [(ngModel)]="this.extra">
+    <button type="submit" class="btn btn-warning w-100 mt-1" (click)="recalculate(orderDetails, this.extra)"><span>Przelicz</span></button>
+  </form>
+  <button *ngIf="order.status=='OPEN'" type="submit" class="btn btn-success pull-right ml-3"
+          (click)="changeOrderStatus(order,'ORDERED')">
+    <span>Zamówiono </span>
+  </button>
+  <button *ngIf="order.status=='ORDERED'" type="submit" class="btn btn-success pull-right ml-3"
+          (click)="changeOrderStatus(order,'RECEIVED')">
+    <span>Do odbioru </span>
+  </button>
+  <button *ngIf="order.status=='RECEIVED'" type="submit" class="btn btn-success pull-right ml-3"
+          (click)="changeOrderStatus(order,'CLOSE')">
+    <span>Zamknij zamówienie </span>
+  </button>
+</div>

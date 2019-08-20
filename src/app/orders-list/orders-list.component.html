@@ -1,22 +1,51 @@
-<table class="table">
+<app-new-order style="margin-top: 30px"></app-new-order>
+<h2>Otwarte zamównia</h2>
+<table class="table" style="margin-top: 30px">
   <thead class="thead-dark">
   <tr>
     <th scope="col">#</th>
-    <th scope="col">Date</th>
-    <th scope="col">Name</th>
-    <th scope="col">Description</th>
+    <th scope="col">Data</th>
+    <th scope="col">Nazwa</th>
+    <th scope="col">Opis</th>
     <th scope="col">Status</th>
-    <th scope="col">Action</th>
+    <th scope="col">Akcja</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let order of orders">
-    <th scope="row">{{order.id}}</th>
-    <td>{{order.date | date: 'MMM d, y, hh:mm:ss'}}</td>
-    <td>{{order.name}}</td>
-    <td>{{order.description}}</td>
-    <td>{{order.status}}</td>
-    <td>X</td>
+  <tr *ngFor="let order of orders" [routerLink]="['/orderDeatails', order.id]">
+    <ng-container *ngIf='order.status!="CLOSE"'>
+      <th scope="row">{{order.id}}</th>
+      <td>{{order.date | date: 'yyyy-MM-dd hh:mm'}}</td>
+      <td>{{order.name}}</td>
+      <td>{{order.description}}</td>
+      <td>{{order.status}}</td>
+      <td><i class="fa  fa-trash-o" (click)="deleteOrder(order.id)"></i></td>
+    </ng-container>
   </tr>
   </tbody>
 </table>
+<h2>Zamkniete zamównia</h2>
+<table class="table" style="margin-top: 30px">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Data</th>
+    <th scope="col">Nazwa</th>
+    <th scope="col">Opis</th>
+    <th scope="col">Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders"  [routerLink]="['/orderDeatails', order.id]">
+    <ng-container *ngIf='order.status=="CLOSE"'>
+      <th scope="row">{{order.id}}</th>
+      <td>{{order.date | date: 'yyyy-MM-dd hh:mm'}}</td>
+      <td>{{order.name}}</td>
+      <td>{{order.description}}</td>
+      <td>{{order.status}}</td>
+    </ng-container>
+  </tr>
+  </tbody>
+</table>
+
+

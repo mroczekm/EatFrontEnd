@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Dopisz się do zamówienia</h2>
+  <div class="row">
+    <form name="form" #f="ngForm" novalidate class="input-form col-3">
+      <div class="form-group">
+        <label>Danie</label>
+        <input type="text"
+               id="dish"
+               class="form-control"
+               name="dish"
+               [(ngModel)]="this.model.dish"
+        />
+      </div>
+    </form>
+    <form name="form" #f="ngForm" novalidate class="input-form col-2">
+      <div class="form-group">
+        <label>Cena</label>
+        <input type="text"
+               id="price"
+               class="form-control"
+               name="description"
+               [(ngModel)]="this.model.price"
+        />
+      </div>
+    </form>
+    <form name="form" #f="ngForm" novalidate class="input-form col-5">
+      <div class="form-group">
+        <label>Uwagi</label>
+        <input type="text"
+               id="description"
+               class="form-control"
+               name="description"
+               [(ngModel)]="this.model.description"
+        />
+      </div>
+    </form>
+    <form name="form" #f="ngForm" novalidate class="input-form col-2">
+      <div class="form-group">
+        <label>Dodatkowo</label>
+        <input type="text"
+               id="extra"
+               class="form-control"
+               name="extra"
+               [(ngModel)]="this.model.extra"
+        />
+      </div>
+    </form>
+  </div>
+  <button type="submit" class="btn btn-success pull-right" (click)="addToOrder()">
+    <span>Dodaj do zamówienia  </span>
+    <i class="fa  fa-plus"></i>
+  </button>
+</div>
