@@ -20,12 +20,13 @@ export class LoginComponent implements OnInit {
   }
 
   checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)
-    ) {
+    if (this.loginservice.authenticate(this.username, this.password)) {
       this.router.navigate([''])
-      this.invalidLogin = false
-    } else
       this.invalidLogin = true
+    } else {
+      this.invalidLogin = false
+      alert("Błędne hasło lub login");
+    }
   }
 
 }

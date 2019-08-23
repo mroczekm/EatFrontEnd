@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {Router, RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {MenuComponent} from './menu/menu.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {OrdersListComponent} from './orders-list/orders-list.component';
 import {FormsModule} from '@angular/forms';
 import { NewOrderComponent } from './orders-list/new-order/new-order.component';
@@ -15,6 +15,7 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import {AuthGaurdService} from "./service/auth-gaurd.service";
+import {BasicAuthHtppInterceptorService} from "./service/basic-auth-htpp-interceptor-service.service";
 
 const appRoutes: Routes = [
   {
@@ -67,7 +68,11 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    {
+      provide:HTTP_INTERCEPTORS, useClass:BasicAuthHtppInterceptorService, multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

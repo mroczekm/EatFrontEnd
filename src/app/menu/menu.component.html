@@ -13,10 +13,10 @@
         <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/myOrders">Moje zamówienia</a>
       </li>
       <li class="nav-item">
-        <a *ngIf="!loginService.isUserLoggedIn()" class="nav-link active" href="/login">Zaloguj</a>
+        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/logout">Wyloguj</a>
       </li>
       <li class="nav-item">
-        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/logout">Wyloguj</a>
+        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active pull-right" href="/">{{this.username}}</a>
       </li>
     </ul>
   </div>
