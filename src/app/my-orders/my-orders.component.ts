@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderDetails} from "../model/order-deatils";
 import {HttpClient} from "@angular/common/http";
+import {ApiService} from "../service/api.service";
 
 @Component({
   selector: 'app-my-orders',
@@ -11,7 +12,7 @@ export class MyOrdersComponent implements OnInit {
   orderDetails: OrderDetails[] = [];
   toPay = 0;
 
-  constructor(private http: HttpClient) {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
@@ -20,11 +21,10 @@ export class MyOrdersComponent implements OnInit {
   }
 
   private getOrdersByUserId(id: number) {
-    const url = 'http://localhost:8082/orderDetails/getByUserId/' + id;
-    this.http.get<OrderDetails[]>(url).subscribe(res => {
+    this.api.getOrdersByUserId(id).subscribe(res => {
       this.orderDetails = res;
       this.calculateToPay();
-    }, error => alert('An error on geting all orders by user'))
+    }, error => alert('An error on getting all orders by user'))
 
   }
 

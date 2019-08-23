@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Order} from "../model/order";
 import {OrderDetails} from "../model/order-deatils";
+import {ApiService} from "../service/api.service";
 
 @Component({
   selector: 'app-order-details',
@@ -15,7 +16,7 @@ export class OrderDetailsComponent implements OnInit {
   id: string;
   extra = 0;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private api: ApiService) {
   }
 
   ngOnInit() {
@@ -25,8 +26,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   public getOrderDetailsByOrderId(id: string) {
-    const url = 'http://localhost:8082/orderDetails/getByOrderId/' + id;
-    this.http.get<OrderDetails[]>(url).subscribe(res => {
+    this.api.getOrderDetailsByOrdersId(id).subscribe(res => {
         this.orderDetails = res;
       },
       error => {
@@ -36,8 +36,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   public getOrderById(id: string) {
-    const url = 'http://localhost:8082/orders/' + id;
-    this.http.get<Order>(url).subscribe(res => {
+    this.api.getOrderById(id).subscribe(res => {
         this.order = res
       },
       error => {
@@ -47,13 +46,12 @@ export class OrderDetailsComponent implements OnInit {
 
 
   changePaidStatus(orderDetails: OrderDetails) {
-    const url = 'http://localhost:8082/orderDetails';
     if (orderDetails.status == 'PAID') {
       orderDetails.status = 'NOT_PAID'
     } else {
       orderDetails.status = 'PAID'
     }
-    this.http.post(url, orderDetails).subscribe(res => {
+    this.api.changePaidStatus(orderDetails).subscribe(res => {
       },
       error => {
         alert('An error in updating order paid status');
@@ -61,8 +59,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   deleteOrderDetails(id: number) {
-    const url = 'http://localhost:8082/orderDetails/' + id;
-    this.http.delete(url).subscribe(res => {
+    this.api.deleteOrderDetails(id).subscribe(res => {
       },
       error => {
         alert('An error in deleting order details');
@@ -70,9 +67,8 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   changeOrderStatus(order: Order, status: string) {
-    const url = 'http://localhost:8082/orders/';
     order.status = status;
-    this.http.post(url, order).subscribe(res => {
+    this.api.changeOrderStatus(order).subscribe(res => {
       },
       error => {
         alert('An error in adding new order');
@@ -80,11 +76,10 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   recalculate(orderDetails: OrderDetails[], extra: number) {
-    const url = 'http://localhost:8082/orderDetails/';
     const toAdd = extra / orderDetails.length;
     orderDetails.forEach(s => {
       s.extra += toAdd;
-      this.http.post(url, s).subscribe(res => {
+      this.api.recalculate(s).subscribe(res => {
         },
         error => {
           alert('An error in updating order details');

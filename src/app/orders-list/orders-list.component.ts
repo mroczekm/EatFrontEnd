@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Order} from '../model/order';
+import {ApiService} from "../service/api.service";
 
 @Component({
   selector: 'app-orders-list',
@@ -10,7 +11,7 @@ import {Order} from '../model/order';
 export class OrdersListComponent implements OnInit {
   orders: Order[] = [];
 
-  constructor(private  http: HttpClient) {
+  constructor(private  api: ApiService) {
   }
 
   ngOnInit() {
@@ -18,8 +19,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   public getAllOrder() {
-    const url = 'http://localhost:8082/orders/all';
-    this.http.get<Order[]>(url).subscribe(res => {
+    this.api.getAllOrder().subscribe(res => {
         this.orders = res;
       },
       error => {
@@ -28,9 +28,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   public deleteOrder(id: number): void {
-    const url = 'http://localhost:8082/orders';
-    // @ts-ignore
-    this.http.delete(url, id).subscribe(res => {
+    this.api.deleteOrder(id).subscribe(res => {
       },
       error => {
         alert('An error in deleting order');

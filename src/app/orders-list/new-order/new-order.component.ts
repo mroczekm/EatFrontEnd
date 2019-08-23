@@ -1,6 +1,7 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Order} from '../../model/order';
+import {ApiService} from "../../service/api.service";
 
 @Component({
   selector: 'app-new-order',
@@ -15,16 +16,15 @@ export class NewOrderComponent implements OnInit {
     description: ''
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
   }
 
-  sendNewOrder(): void {
-    const url = 'http://localhost:8082/orders';
+  addNewOrder(): void {
     this.order = new Order(new Date(), this.model.name, this.model.description, 'OPEN');
-    this.http.post(url, this.order).subscribe(res => {
+    this.api.addNewOrder(this.order).subscribe(res => {
       },
       error => {
         alert('An error in adding new order');

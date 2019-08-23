@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Order} from "../../model/order";
 import {HttpClient} from "@angular/common/http";
 import {OrderDetails} from "../../model/order-deatils";
+import {ApiService} from "../../service/api.service";
 
 export interface newOrderDetails {
   dish: string;
@@ -25,17 +26,17 @@ export class NewOrderDetailsComponent implements OnInit {
     extra: 0.00
   }
 
-  constructor(private http:HttpClient) { }
+  constructor(private api: ApiService) {
+  }
 
   ngOnInit() {
 
   }
 
   addToOrder() {
-    const url = 'http://localhost:8082/orderDetails';
-    this.orderDetails = new OrderDetails(1, this.id,this.model.dish, this.model.price,this.model.description,this.model.extra, 'NOT_PAID');
-    this.http.post(url, this.orderDetails).subscribe(res => {
-        /!*this.orders = res*!/
+    //TODO user ID
+    this.orderDetails = new OrderDetails(1, this.id, this.model.dish, this.model.price, this.model.description, this.model.extra, 'NOT_PAID');
+    this.api.addToOrder(this.orderDetails).subscribe(res => {
       },
       error => {
         alert('An error in adding new order');
