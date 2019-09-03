@@ -8,7 +8,7 @@ import {AuthenticationService} from "../service/authentication.service";
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private loginService:AuthenticationService) { }
+  constructor(public loginService:AuthenticationService) { }
   username: string;
   ngOnInit() {
     this.username = sessionStorage.getItem('username');

@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
 import {AuthenticationService} from "../service/authentication.service";
+import {MatSnackBar} from "@angular/material";
+import {ApiService} from "../service/api.service";
+import {User} from "../model/user";
+import {FormGroup, NgForm} from "@angular/forms";
+import {config} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -8,25 +13,43 @@ import {AuthenticationService} from "../service/authentication.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  hide = true;
 
-  username = ''
-  password = ''
+  username = '';
+  password = '';
+  firstName = '';
+  lastName = '';
   invalidLogin = false
+  user: User;
 
   constructor(private router: Router,
-              private loginservice: AuthenticationService) { }
+              private loginService: AuthenticationService,
+              private snackBar: MatSnackBar,
+              private api: ApiService
+  ) {
+  }
 
   ngOnInit() {
   }
 
   checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)) {
-      this.router.navigate([''])
+    if (this.loginService.authenticate(this.username, this.password)) {
       this.invalidLogin = true
     } else {
       this.invalidLogin = false
-      alert("Błędne hasło lub login");
+      this.username = '';
+      this.password = '';
     }
   }
 
+  singIn() {
+    this.user = new User(this.firstName, this.lastName, this.username, this.password);
+    this.api.singInUser(this.user).subscribe(res => {
+      this.username = '';
+      this.password = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.snackBar.open("Użytkownik został utworzony", "OK", {duration: 4000});
+    })
+  }
 }

@@ -1,53 +1,25 @@
-<div class="container">
-  <h2>Dopisz się do zamówienia</h2>
-  <div class="row">
-    <form name="form" #f="ngForm" novalidate class="input-form col-3">
-      <div class="form-group">
-        <label>Danie</label>
-        <input type="text"
-               id="dish"
-               class="form-control"
-               name="dish"
-               [(ngModel)]="this.model.dish"
-        />
-      </div>
-    </form>
-    <form name="form" #f="ngForm" novalidate class="input-form col-2">
-      <div class="form-group">
-        <label>Cena</label>
-        <input type="text"
-               id="price"
-               class="form-control"
-               name="description"
-               [(ngModel)]="this.model.price"
-        />
-      </div>
-    </form>
-    <form name="form" #f="ngForm" novalidate class="input-form col-5">
-      <div class="form-group">
-        <label>Uwagi</label>
-        <input type="text"
-               id="description"
-               class="form-control"
-               name="description"
-               [(ngModel)]="this.model.description"
-        />
-      </div>
-    </form>
-    <form name="form" #f="ngForm" novalidate class="input-form col-2">
-      <div class="form-group">
-        <label>Dodatkowo</label>
-        <input type="text"
-               id="extra"
-               class="form-control"
-               name="extra"
-               [(ngModel)]="this.model.extra"
-        />
-      </div>
-    </form>
-  </div>
-  <button type="submit" class="btn btn-success pull-right" (click)="addToOrder()">
-    <span>Dodaj do zamówienia  </span>
+<mat-toolbar class="mb-3">Dopisz się do zamówienia</mat-toolbar>
+<form>
+  <mat-form-field class="col-4">
+    <input matInput placeholder="Danie" [(ngModel)]="this.model.dish" [name]="this.model.dish"
+           [ngModelOptions]="{standalone: true}"/>
+  </mat-form-field>
+  <mat-form-field class="col-3">
+    <input matInput placeholder="Uwagi" [(ngModel)]="this.model.description" [name]="this.model.description"
+           [ngModelOptions]="{standalone: true}"/>
+  </mat-form-field>
+  <mat-form-field class="col-2">
+    <input matInput placeholder="Cena" [(ngModel)]="this.model.price" [name]="this.model.price"
+           [ngModelOptions]="{standalone: true}"/>
+    <span matSuffix>zł</span>
+  </mat-form-field>
+  <mat-form-field class="col-2">
+    <input matInput placeholder="Dodatkowe koszta" [(ngModel)]="this.model.extra" [name]="this.model.extra"
+           [ngModelOptions]="{standalone: true}"/>
+    <span matSuffix>zł</span>
+    <mat-hint>Opakowanie itp.</mat-hint>
+  </mat-form-field>
+  <button mat-flat-button color="primary" style="display: inline" (click)="addToOrder()">
     <i class="fa  fa-plus"></i>
   </button>
-</div>
+</form>

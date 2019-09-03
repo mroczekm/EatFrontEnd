@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Order} from "../../model/order";
 import {HttpClient} from "@angular/common/http";
 import {OrderDetails} from "../../model/order-deatils";
 import {ApiService} from "../../service/api.service";
+import {MatSnackBar} from "@angular/material";
 
 export interface newOrderDetails {
   dish: string;
@@ -18,15 +19,19 @@ export interface newOrderDetails {
 })
 export class NewOrderDetailsComponent implements OnInit {
   @Input() id: number
+  @Output()
+  uploaded = new EventEmitter<string>();
+
   orderDetails: OrderDetails;
   model: newOrderDetails = {
     dish: '',
-    price: 0.00,
+    price: null,
     description: '',
-    extra: 0.00
+    extra: null
   }
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService,
+              private snackBar: MatSnackBar,) {
   }
 
   ngOnInit() {
@@ -34,9 +39,16 @@ export class NewOrderDetailsComponent implements OnInit {
   }
 
   addToOrder() {
-    //TODO user ID
+
     this.orderDetails = new OrderDetails(1, this.id, this.model.dish, this.model.price, this.model.description, this.model.extra, 'NOT_PAID');
+    console.log(this.orderDetails);
     this.api.addToOrder(this.orderDetails).subscribe(res => {
+        this.model.extra = null;
+        this.model.price = null;
+        this.model.dish = '';
+        this.model.description = '';
+        this.uploaded.emit();
+        this.snackBar.open("Dodawno do zamówienia", "OK" , {duration: 4000});
       },
       error => {
         alert('An error in adding new order');

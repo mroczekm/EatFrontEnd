@@ -14,7 +14,10 @@ export class OrderDetailsComponent implements OnInit {
   orderDetails: OrderDetails[] = [];
   order: Order;
   id: string;
-  extra = 0;
+  extra: number;
+  total: number;
+  displayedColumns: string[] = ['position', 'user', 'dish', 'description', 'price', 'extra', 'total', 'status', 'action' ];
+
 
   constructor(private route: ActivatedRoute, private api: ApiService) {
   }
@@ -28,14 +31,15 @@ export class OrderDetailsComponent implements OnInit {
   public getOrderDetailsByOrderId(id: string) {
     this.api.getOrderDetailsByOrdersId(id).subscribe(res => {
         this.orderDetails = res;
+        this.total = res.reduce((prev,cur) => prev + cur.price + cur.extra,0);
       },
       error => {
         alert('An error on getting all orders');
       });
-    console.log(this.orderDetails);
+
   }
 
-  public getOrderById(id: string) {
+  getOrderById(id: string) {
     this.api.getOrderById(id).subscribe(res => {
         this.order = res
       },
@@ -60,6 +64,7 @@ export class OrderDetailsComponent implements OnInit {
 
   deleteOrderDetails(id: number) {
     this.api.deleteOrderDetails(id).subscribe(res => {
+        this.getOrderDetailsByOrderId(this.id);
       },
       error => {
         alert('An error in deleting order details');
@@ -69,6 +74,7 @@ export class OrderDetailsComponent implements OnInit {
   changeOrderStatus(order: Order, status: string) {
     order.status = status;
     this.api.changeOrderStatus(order).subscribe(res => {
+        this.getOrderDetailsByOrderId(this.id);
       },
       error => {
         alert('An error in adding new order');
@@ -76,6 +82,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   recalculate(orderDetails: OrderDetails[], extra: number) {
+    this.getOrderDetailsByOrderId(this.id);
     const toAdd = extra / orderDetails.length;
     orderDetails.forEach(s => {
       s.extra += toAdd;
@@ -85,6 +92,8 @@ export class OrderDetailsComponent implements OnInit {
           alert('An error in updating order details');
         });
     });
+    this.total = Number(this.total) + Number(this.extra);
     this.extra = 0;
   }
+
 }

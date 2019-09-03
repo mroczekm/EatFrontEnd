@@ -11,6 +11,8 @@ import {ApiService} from "../service/api.service";
 export class MyOrdersComponent implements OnInit {
   orderDetails: OrderDetails[] = [];
   toPay = 0;
+  displayedColumns: string[] = ['position', 'user', 'dish', 'description', 'price', 'extra', 'total', 'status', 'action' ];
+
 
   constructor(private api: ApiService) {
   }

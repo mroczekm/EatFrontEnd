@@ -1,5 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container">
-  <app-menu></app-menu>
-  <router-outlet style=""></router-outlet>
+<app-menu class="mb-5"></app-menu>
+<app-login *ngIf="!loginService.isUserLoggedIn()"></app-login>
+<div class="container" *ngIf="loginService.isUserLoggedIn()">
+  <router-outlet></router-outlet>
 </div>
+

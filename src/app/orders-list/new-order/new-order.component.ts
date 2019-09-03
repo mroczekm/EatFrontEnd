@@ -1,7 +1,11 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Order} from '../../model/order';
 import {ApiService} from "../../service/api.service";
+import {User} from "../../model/user";
+import {Router} from "@angular/router";
+import {delay} from "rxjs/operators";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-new-order',
@@ -9,6 +13,11 @@ import {ApiService} from "../../service/api.service";
   styleUrls: ['./new-order.component.css']
 })
 export class NewOrderComponent implements OnInit {
+  @Output()
+  uploaded = new EventEmitter<string>();
+
+  @Input()
+  currentUser: User;
 
   order: Order;
   model: NewOrder = {
@@ -16,19 +25,21 @@ export class NewOrderComponent implements OnInit {
     description: ''
   };
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService,
+              private snackBar: MatSnackBar,) {
   }
 
   ngOnInit() {
   }
 
   addNewOrder(): void {
-    this.order = new Order(new Date(), this.model.name, this.model.description, 'OPEN');
+    this.order = new Order(new Date(), this.currentUser.id, this.currentUser, this.model.name, this.model.description, 'Otwarte');
     this.api.addNewOrder(this.order).subscribe(res => {
-      },
-      error => {
-        alert('An error in adding new order');
-      });
+        this.model.description = '';
+        this.model.name = '';
+      this.snackBar.open("Utworzono nowe zamówienie", "OK" , {duration: 4000});
+      this.uploaded.emit();
+    });
   }
 }
 

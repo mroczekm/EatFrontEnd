@@ -1,9 +1,65 @@
+<!--
 <div class="container">
   <div>
     User Name : <input type="text" name="username" [(ngModel)]="username">
     Password : <input type="password" name="password" [(ngModel)]="password">
   </div>
-  <button (click)=checkLogin() class="btn btn-success">
+  <button (click)="checkLogin()" class="btn btn-success">
     Login
   </button>
+</div>
+-->
+<div class="col d-flex justify-content-center ">
+<mat-card>
+  <mat-tab-group >
+    <mat-tab label="Logowanie" class="example-50-width">
+      <mat-card class="mat-card">
+        <mat-card-content>
+          <form class="example-form mt-5">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Mail" [(ngModel)]="username" name="username" >
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password" [type]="hide ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon *ngIf="hide" class="fa fa-eye-slash"></mat-icon>
+                <mat-icon *ngIf="!hide" class="fa fa-eye"></mat-icon>
+              </button>
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+        <mat-card-actions class="text-center">
+          <button mat-raised-button (click)="checkLogin()" color="primary">Zaloguj</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Rejstracja" class="example-50-width">
+      <mat-card class="mat-card">
+        <mat-card-content>
+          <form class="example-form" >
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Mail" [(ngModel)]="username" name="username" required>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password"
+                     required>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Imie" [(ngModel)]="firstName" type="text" name="firstName"
+                     required>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Nazwisko" [(ngModel)]="lastName" type="text" name="lastName"
+                     required>
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+        <mat-card-actions class="pull-right">
+          <button mat-raised-button (click)="singIn()" color="primary">Zarejestruj</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+
 </div>

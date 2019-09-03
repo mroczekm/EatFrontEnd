@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">EatIT</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,10 +7,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/orders">Lista zmówień<span class="sr-only">(current)</span></a>
+        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/orders">Aktywne zmówienia<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/myOrders">Moje zamówienia</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/orderHistory">Historia zamówień</a>
       </li>
       <li class="nav-item">
         <a *ngIf="loginService.isUserLoggedIn()" class="nav-link active" href="/logout">Wyloguj</a>
