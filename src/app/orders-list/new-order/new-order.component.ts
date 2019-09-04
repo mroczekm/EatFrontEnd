@@ -37,7 +37,7 @@ export class NewOrderComponent implements OnInit {
     this.api.addNewOrder(this.order).subscribe(res => {
         this.model.description = '';
         this.model.name = '';
-      this.snackBar.open("Utworzono nowe zamówienie", "OK" , {duration: 4000});
+      this.snackBar.open("Utworzono nowe zamówienie", "" , {duration: 4000});
       this.uploaded.emit();
     });
   }

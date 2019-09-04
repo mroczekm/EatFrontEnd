@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Order} from "../model/order";
 import {OrderDetails} from "../model/order-deatils";
 import {ApiService} from "../service/api.service";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-order-details',
@@ -16,10 +17,13 @@ export class OrderDetailsComponent implements OnInit {
   id: string;
   extra: number;
   total: number;
+  text: string;
   displayedColumns: string[] = ['position', 'user', 'dish', 'description', 'price', 'extra', 'total', 'status', 'action' ];
 
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {
+  constructor(private route: ActivatedRoute,
+              private api: ApiService,
+              private snackBar: MatSnackBar,) {
   }
 
   ngOnInit() {
@@ -52,10 +56,13 @@ export class OrderDetailsComponent implements OnInit {
   changePaidStatus(orderDetails: OrderDetails) {
     if (orderDetails.status == 'PAID') {
       orderDetails.status = 'NOT_PAID'
+      this.text = 'Zmieniono status na NIEZAPŁACONE';
     } else {
       orderDetails.status = 'PAID'
+      this.text = 'Zmieniono status na ZAPŁACONE';
     }
     this.api.changePaidStatus(orderDetails).subscribe(res => {
+        this.snackBar.open(this.text, "" , {duration: 4000});
       },
       error => {
         alert('An error in updating order paid status');
@@ -65,6 +72,7 @@ export class OrderDetailsComponent implements OnInit {
   deleteOrderDetails(id: number) {
     this.api.deleteOrderDetails(id).subscribe(res => {
         this.getOrderDetailsByOrderId(this.id);
+        this.snackBar.open("Usunięto pozycje z zamówienia", "" , {duration: 4000});
       },
       error => {
         alert('An error in deleting order details');
@@ -87,13 +95,18 @@ export class OrderDetailsComponent implements OnInit {
     orderDetails.forEach(s => {
       s.extra += toAdd;
       this.api.recalculate(s).subscribe(res => {
+          this.total = Number(this.total) + Number(this.extra);
+          this.extra = 0
+          this.snackBar.open("Przeliczono koszty zamówienia", "" , {duration: 4000});
         },
         error => {
           alert('An error in updating order details');
         });
     });
-    this.total = Number(this.total) + Number(this.extra);
-    this.extra = 0;
+   ;
+
+
+
   }
 
 }

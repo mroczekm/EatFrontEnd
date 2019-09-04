@@ -4,7 +4,7 @@ import {AuthenticationService} from "../service/authentication.service";
 import {MatSnackBar} from "@angular/material";
 import {ApiService} from "../service/api.service";
 import {User} from "../model/user";
-import {FormGroup, NgForm} from "@angular/forms";
+import {Form, FormGroup, NgForm} from "@angular/forms";
 import {config} from "rxjs";
 
 @Component({
@@ -13,6 +13,8 @@ import {config} from "rxjs";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  userForm: FormGroup;
+
   hide = true;
 
   username = '';
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
   lastName = '';
   invalidLogin = false
   user: User;
+  scdPassword: '';
 
   constructor(private router: Router,
               private loginService: AuthenticationService,
@@ -30,6 +33,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  initForm(){
+
+
   }
 
   checkLogin() {
@@ -49,7 +57,7 @@ export class LoginComponent implements OnInit {
       this.password = '';
       this.firstName = '';
       this.lastName = '';
-      this.snackBar.open("Użytkownik został utworzony", "OK", {duration: 4000});
+      this.snackBar.open("Użytkownik został utworzony", "", {duration: 4000});
     })
   }
 }

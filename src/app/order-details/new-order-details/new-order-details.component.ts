@@ -40,7 +40,7 @@ export class NewOrderDetailsComponent implements OnInit {
 
   addToOrder() {
 
-    this.orderDetails = new OrderDetails(1, this.id, this.model.dish, this.model.price, this.model.description, this.model.extra, 'NOT_PAID');
+    this.orderDetails = new OrderDetails(Number(sessionStorage.getItem('userId')), this.id, this.model.dish, this.model.price, this.model.description, this.model.extra, 'NOT_PAID');
     console.log(this.orderDetails);
     this.api.addToOrder(this.orderDetails).subscribe(res => {
         this.model.extra = null;
@@ -48,7 +48,7 @@ export class NewOrderDetailsComponent implements OnInit {
         this.model.dish = '';
         this.model.description = '';
         this.uploaded.emit();
-        this.snackBar.open("Dodawno do zamówienia", "OK" , {duration: 4000});
+        this.snackBar.open("Dodawno do zamówienia", "" , {duration: 4000});
       },
       error => {
         alert('An error in adding new order');

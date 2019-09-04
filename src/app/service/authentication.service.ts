@@ -22,18 +22,17 @@ export class AuthenticationService {
   }
 
   async authenticate(username, password) {
-    this.authentication = true;
-    /*  this.authentication = await this.api.validate(username,password).toPromise()
+        this.authentication = await this.api.validate(username,password).toPromise()
       .catch(reason => {
         return false
-      });*/
+      });
     if (this.authentication) {
       sessionStorage.setItem('username', username)
       let authString = 'Basic ' + btoa(username + ':' + password);
       sessionStorage.setItem('basicauth', authString);
       this.router.navigate([''])
     } else {
-      this.snackBar.open("Podano błędny mail lub hasło", "OK", {duration: 5000});
+      this.snackBar.open("Podano błędny mail lub hasło", "", {duration: 5000});
     }
 
     return this.authentication;

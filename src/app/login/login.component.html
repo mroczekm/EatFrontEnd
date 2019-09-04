@@ -36,21 +36,30 @@
     <mat-tab label="Rejstracja" class="example-50-width">
       <mat-card class="mat-card">
         <mat-card-content>
-          <form class="example-form" >
+          <form class="example-form"  [formGroup]="userForm">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail" [(ngModel)]="username" name="username" required>
+              <input matInput placeholder="Mail" [(ngModel)]="username" name="username" required pattern=".+@bsb.pl">
+              <mat-error>Proszę o wprowadzenie maila *@bsb.pl</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password"
                      required>
+              <mat-error>Proszę o wprowadzenia hasła</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Powtórz hasło" [(ngModel)]="scdPassword" type="password" name="password"
+                     required>
+              <mat-error >Hasła nie są zgodne</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Imie" [(ngModel)]="firstName" type="text" name="firstName"
                      required>
+              <mat-error>Proszę o wprowadzenia imienia</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Nazwisko" [(ngModel)]="lastName" type="text" name="lastName"
-                     required>
+                    required>
+              <mat-error>Proszę o wprowadzenia nazwiska</mat-error>
             </mat-form-field>
           </form>
         </mat-card-content>

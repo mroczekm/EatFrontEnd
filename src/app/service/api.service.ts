@@ -9,7 +9,8 @@ import {User} from "../model/user";
   providedIn: 'root'
 })
 export class ApiService {
-  private URL = 'http://localhost:8080/eatitapp';
+  /*private URL = 'http://localhost:8080/eatitapp';*/
+  private URL = 'http://localhost:8082';
   private ORDERS_ALL = `${this.URL}\\orders\\all`;
   private ORDER_ADD_GET_DEL = `${this.URL}\\orders\\`;
   private ORDER_DETAILS_ADD_GET_DEL = `${this.URL}\\orderDetails\\`;
