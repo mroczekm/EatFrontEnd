@@ -1,25 +1,24 @@
 <mat-toolbar class="mb-3">Dopisz się do zamówienia</mat-toolbar>
-<form>
+<form [formGroup]="orderDetailsForm" (keydown)="onKeydown($event)">
   <mat-form-field class="col-4">
-    <input matInput placeholder="Danie" [(ngModel)]="this.model.dish" [name]="this.model.dish"
-           [ngModelOptions]="{standalone: true}"/>
+    <input matInput placeholder="Danie" formControlName="dish" required/>
   </mat-form-field>
   <mat-form-field class="col-3">
-    <input matInput placeholder="Uwagi" [(ngModel)]="this.model.description" [name]="this.model.description"
-           [ngModelOptions]="{standalone: true}"/>
+    <input matInput placeholder="Uwagi" formControlName="description"/>
   </mat-form-field>
   <mat-form-field class="col-2">
-    <input matInput placeholder="Cena" [(ngModel)]="this.model.price" [name]="this.model.price"
-           [ngModelOptions]="{standalone: true}"/>
+    <input matInput placeholder="Cena" formControlName="price" required/>
     <span matSuffix>zł</span>
   </mat-form-field>
   <mat-form-field class="col-2">
-    <input matInput placeholder="Dodatkowe koszta" [(ngModel)]="this.model.extra" [name]="this.model.extra"
-           [ngModelOptions]="{standalone: true}"/>
+    <input matInput placeholder="Dodatkowe koszta" formControlName="extra"/>
     <span matSuffix>zł</span>
     <mat-hint>Opakowanie itp.</mat-hint>
   </mat-form-field>
-  <button mat-flat-button color="primary" style="display: inline" (click)="addToOrder()">
+  <button mat-flat-button
+          color="primary" style="display: inline"
+          (click)="addToOrder()"
+          [disabled]="orderDetailsForm.invalid">
     <i class="fa  fa-plus"></i>
   </button>
 </form>

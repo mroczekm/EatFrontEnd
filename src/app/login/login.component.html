@@ -15,12 +15,12 @@
     <mat-tab label="Logowanie" class="example-50-width">
       <mat-card class="mat-card">
         <mat-card-content>
-          <form class="example-form mt-5">
+          <form class="example-form mt-5" (keydown)="onKeydown($event)">
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Mail" [(ngModel)]="username" name="username" >
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password" [type]="hide ? 'password' : 'text'">
+              <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password" [type]="hide ? 'password' : 'text'"/>
               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon *ngIf="hide" class="fa fa-eye-slash"></mat-icon>
                 <mat-icon *ngIf="!hide" class="fa fa-eye"></mat-icon>
@@ -36,35 +36,36 @@
     <mat-tab label="Rejstracja" class="example-50-width">
       <mat-card class="mat-card">
         <mat-card-content>
-          <form class="example-form"  [formGroup]="userForm">
+          <form class="example-form"  [formGroup]="userForm" >
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail" [(ngModel)]="username" name="username" required pattern=".+@bsb.pl">
+              <input matInput placeholder="Mail" formControlName="username" required pattern=".+@bsb.pl">
               <mat-error>Proszę o wprowadzenie maila *@bsb.pl</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Hasło" [(ngModel)]="password" type="password" name="password"
-                     required>
-              <mat-error>Proszę o wprowadzenia hasła</mat-error>
+              <input matInput placeholder="Hasło" type="password" formControlName="password"
+                     required minlength="4">
+              <mat-error *ngIf="userForm.get('password').errors?.minlength">Hasło za krótkie</mat-error>
+              <mat-error *ngIf="userForm.get('password').errors?.required">Proszę o wprowadzenia hasła</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Powtórz hasło" [(ngModel)]="scdPassword" type="password" name="password"
-                     required>
-              <mat-error >Hasła nie są zgodne</mat-error>
+              <input matInput placeholder="Powtórz hasło" type="password" formControlName="verifyPassword" required
+                     [errorStateMatcher]="errorMatcher">
+              <mat-error *ngIf="userForm.hasError('passwordsDoNotMatch')">Hasła nie są zgodne</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Imie" [(ngModel)]="firstName" type="text" name="firstName"
+              <input matInput placeholder="Imie" type="text" formControlName="firstName"
                      required>
               <mat-error>Proszę o wprowadzenia imienia</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Nazwisko" [(ngModel)]="lastName" type="text" name="lastName"
+              <input matInput placeholder="Nazwisko" type="text" formControlName="lastName"
                     required>
               <mat-error>Proszę o wprowadzenia nazwiska</mat-error>
             </mat-form-field>
           </form>
         </mat-card-content>
         <mat-card-actions class="pull-right">
-          <button mat-raised-button (click)="singIn()" color="primary">Zarejestruj</button>
+          <button [disabled]="userForm.hasError('passwordsDoNotMatch') || userForm.invalid" mat-raised-button (click)="singIn()" color="primary">Zarejestruj</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
